@@ -45,6 +45,11 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "photoalbum.fullname" . }}-config
+            {{- if .Values.secretName }}
+            # Sensitive configuration (connection strings, etc.) from a pre-existing Secret
+            - secretRef:
+                name: {{ .Values.secretName }}
+            {{- end }}
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
