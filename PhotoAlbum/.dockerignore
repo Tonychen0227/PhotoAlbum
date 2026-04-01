@@ -1,0 +1,39 @@
+## Git
+.git
+.gitignore
+.gitattributes
+
+## Docker
+**/Dockerfile
+**/.dockerignore
+
+## Visual Studio
+.vs/
+**/*.user
+**/*.suo
+**/*.userosscache
+**/*.sln.docstates
+
+## Build outputs
+**/bin/
+**/obj/
+
+## Test projects
+PhotoAlbum.Tests/
+
+## Azure / deployment artefacts
+.azure/
+
+## IDE
+.vscode/
+.idea/
+
+## OS
+**/.DS_Store
+**/Thumbs.db
+
+## Secrets / local config
+**/appsettings.Development.json
+**/secrets.json
+**/*.pfx
+**/*.key
