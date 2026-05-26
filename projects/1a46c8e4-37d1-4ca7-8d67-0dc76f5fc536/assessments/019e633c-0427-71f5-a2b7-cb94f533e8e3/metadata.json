@@ -1,0 +1,14 @@
+{
+  "name": "Assessment May 26, 2026 03:42 PM",
+  "execution_mode": "cca",
+  "status": "running",
+  "target": "net10.0",
+  "domain": "upgrade,cloud-readiness",
+  "created_at": "2026-05-26T07:42:18.2295188\u002B00:00",
+  "base_commit": "9c25ab62e5225bfdbd9d97a107a455dc1da69453",
+  "apps": {
+    "6e3c0c0d-6fe8-4236-afdc-b3b68090d454": {
+      "status": "pending"
+    }
+  }
+}

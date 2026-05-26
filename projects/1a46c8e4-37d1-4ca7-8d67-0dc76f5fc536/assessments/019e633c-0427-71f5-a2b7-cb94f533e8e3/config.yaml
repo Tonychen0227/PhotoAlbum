@@ -1,0 +1,9 @@
+analysisCoverage: full
+dotnet:
+  assessmentDomains:
+  - dotnet-upgrade
+  - cloud-readiness
+  targetRuntime: net10.0
+  targetComputeServices:
+  - Any
+  minimumCveSeverity: high
