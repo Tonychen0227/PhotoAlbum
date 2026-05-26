@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Tasks template for modernization plan. Generate this file alongside plan.md to track individual migration tasks.",
+  "tasks": [
+    {
+      "type": "upgrade",
+      "id": "001-upgrade-dotnet",
+      "description": "Upgrade the PhotoAlbum project from .NET 9.0 to .NET 10 LTS",
+      "reason": ".NET 9.0 reached End of Life on May 12, 2026 and no longer receives security updates. Upgrading to .NET 10 LTS ensures long-term support and compatibility with the latest Azure SDK packages.",
+      "requirements": "Upgrade the target framework from net9.0 to net10.0 across all projects (PhotoAlbum and PhotoAlbum.Tests). Update all NuGet package references to their .NET 10-compatible versions. Ensure the project builds successfully and all existing unit tests pass after the upgrade. Update the Dockerfile base images from dotnet/aspnet:9.0 and dotnet/sdk:9.0 to their .NET 10 equivalents.",
+      "dependencies": [],
+      "successCriteria": {
+        "passBuild": "true",
+        "generateNewUnitTests": "false",
+        "passUnitTests": "true"
+      }
+    },
+    {
+      "type": "transform",
+      "id": "002-transform-local-storage-to-azure-blob",
+      "description": "Migrate photo file storage from local disk to Azure Blob Storage",
+      "reason": "The application currently stores uploaded photos in wwwroot/uploads on the local filesystem. This approach does not scale horizontally, is not durable across container restarts, and is unsuitable for cloud deployment. Azure Blob Storage provides scalable, durable, and cost-effective object storage.",
+      "requirements": "Replace all local file system operations in PhotoService (upload, read, delete) with Azure Blob Storage SDK calls. Use Managed Identity (DefaultAzureCredential) for authentication — no connection strings or storage account keys in code or config. Store the Azure Blob Storage account/container endpoint in appsettings.json. Ensure the PhotoFile Razor Page continues to serve images to the browser. Remove the wwwroot/uploads directory dependency and the startup directory creation logic. The IPhotoService interface and Photo model should be preserved.",
+      "dependencies": ["001-upgrade-dotnet"],
+      "skills": [
+        {
+          "name": "migration-azure-storage-blob",
+          "location": "builtin"
+        }
+      ],
+      "successCriteria": {
+        "passBuild": "true",
+        "generateNewUnitTests": "true",
+        "passUnitTests": "true"
+      }
+    },
+    {
+      "type": "transform",
+      "id": "003-transform-localdb-to-azure-sql",
+      "description": "Migrate the database from SQL Server LocalDB to Azure SQL Database",
+      "reason": "SQL Server LocalDB is a developer-only local database engine not suitable for cloud or containerized deployment. Azure SQL Database provides a fully managed, highly available relational database with enterprise-grade security.",
+      "requirements": "Update the EF Core SQL Server connection to target Azure SQL Database using Managed Identity (DefaultAzureCredential) — remove the Trusted_Connection=true LocalDB connection string. Store the Azure SQL Database server/database name in appsettings.json. Ensure EF Core migrations continue to work against Azure SQL Database. The PhotoAlbumContext and Photo model should not change structurally.",
+      "dependencies": ["001-upgrade-dotnet"],
+      "skills": [
+        {
+          "name": "migration-azure-sql-database",
+          "location": "builtin"
+        }
+      ],
+      "successCriteria": {
+        "passBuild": "true",
+        "generateNewUnitTests": "true",
+        "passUnitTests": "true"
+      }
+    },
+    {
+      "type": "security",
+      "id": "004-security-cve-remediation",
+      "description": "Scan all project dependencies for known CVEs and remediate identified vulnerabilities",
+      "reason": "Before deploying to Azure, all known security vulnerabilities in dependencies must be identified and resolved to meet security compliance requirements.",
+      "requirements": "Upgrade vulnerable dependencies to the minimum patched version. If a CVE fix requires a major version upgrade, document the affected dependency, the current version, the upgraded major version, and the breaking change risk. Verify that the project builds and all tests pass after remediation.",
+      "dependencies": ["001-upgrade-dotnet", "002-transform-local-storage-to-azure-blob", "003-transform-localdb-to-azure-sql"],
+      "skills": [
+        {
+          "name": "validate-cves-and-fix",
+          "location": "builtin"
+        }
+      ],
+      "successCriteria": {
+        "passBuild": "true",
+        "generateNewUnitTests": "false",
+        "passUnitTests": "true"
+      }
+    }
+  ],
+  "metadata": {
+    "planName": "plan",
+    "projectName": "PhotoAlbum",
+    "language": "dotnet",
+    "createdAt": "2026-05-26T15:57:53.028+08:00",
+    "version": "1.0"
+  }
+}
