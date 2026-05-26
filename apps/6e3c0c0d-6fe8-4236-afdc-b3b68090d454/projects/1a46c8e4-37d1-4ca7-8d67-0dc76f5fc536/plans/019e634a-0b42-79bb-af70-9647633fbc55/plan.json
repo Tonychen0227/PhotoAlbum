@@ -1,0 +1,9 @@
+{
+  "name": "PhotoAlbum plan",
+  "execution_mode": "local",
+  "status": "running",
+  "execution_goal": "Modernize my project.",
+  "use_rulebook": false,
+  "base_commit": "30d941e94187b9185b03e6280bcf8e1edcc3df6e",
+  "created_at": "2026-05-26T07:57:37.5435736\u002B00:00"
+}
