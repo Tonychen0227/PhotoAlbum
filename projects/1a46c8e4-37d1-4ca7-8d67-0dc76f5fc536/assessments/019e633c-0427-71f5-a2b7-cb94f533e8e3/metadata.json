@@ -1,14 +1,15 @@
 {
   "name": "Assessment May 26, 2026 03:42 PM",
   "execution_mode": "cca",
-  "status": "running",
+  "status": "completed",
   "target": "net10.0",
   "domain": "upgrade,cloud-readiness",
   "created_at": "2026-05-26T07:42:18.2295188\u002B00:00",
+  "completed_at": "2026-05-26T07:54:01.0062534\u002B00:00",
   "base_commit": "9c25ab62e5225bfdbd9d97a107a455dc1da69453",
   "apps": {
     "6e3c0c0d-6fe8-4236-afdc-b3b68090d454": {
-      "status": "running",
+      "status": "completed",
       "pull_request": "https://github.com/Tonychen0227/PhotoAlbum/pull/3",
       "session_url": "https://github.com/Tonychen0227/PhotoAlbum/pull/3/agent-sessions/c1dfb44c-0a3d-4fd2-a952-d9477de44203",
       "job_id": "20737169-1197938179-8607f633-a29b-45d5-bfdb-8feb8947cfb2"
